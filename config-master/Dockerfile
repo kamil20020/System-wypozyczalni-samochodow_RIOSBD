@@ -15,6 +15,7 @@ RUN echo "log_bin=mysql-bin" >> /etc/mysql/my.cnf
 RUN echo "binlog_format=mixed" >> /etc/mysql/my.cnf
 RUN echo "bind-address=0.0.0.0" >> /etc/mysql/my.cnf
 RUN echo "skip_ssl=false" >> /etc/mysql/my.cnf
+RUN echo "general_log=1" >> /etc/mysql/my.cnf
 
 RUN chmod 0444 /etc/mysql/my.cnf
 
