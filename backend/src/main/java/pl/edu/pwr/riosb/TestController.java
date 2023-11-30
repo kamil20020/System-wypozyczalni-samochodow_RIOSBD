@@ -23,7 +23,7 @@ public class TestController {
         dataSource.setPassword("TEST");
 
         JdbcTemplate template = new JdbcTemplate(dataSource);
-        SqlRowSet sqlRowSet = template.queryForRowSet("SELECT * FROM TEST;");
+        SqlRowSet sqlRowSet = template.queryForRowSet("SELECT * FROM CARS;");
 
         return ResponseEntity.ok(null);
     }

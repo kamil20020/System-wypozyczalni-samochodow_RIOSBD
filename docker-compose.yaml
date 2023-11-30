@@ -9,7 +9,6 @@ services:
     restart: always
     volumes:
       - ./config-master/data:/var/lib/mysql
-    #  - ./config-master/my.cnf:/etc/mysql/my.cnf
       - ./config-master/log:/var/log/mysql
       - ./config-master/init:/docker-entrypoint-initdb.d
     environment:
@@ -27,7 +26,6 @@ services:
     volumes:
       - ./config-slave/data1:/var/lib/mysql
       - ./config-slave/log:/var/log/mysql
-    #  - ./config-slave/my.cnf:/etc/mysql/my.cnf
       - ./config-slave/init:/docker-entrypoint-initdb.d
     environment:
       ID: 22222
@@ -46,7 +44,6 @@ services:
     volumes:
       - ./config-slave/data2:/var/lib/mysql
       - ./config-slave/log:/var/log/mysql
-    #  - ./config-slave/my.cnf:/etc/mysql/my.cnf
       - ./config-slave/init:/docker-entrypoint-initdb.d
     environment:
       ID: 33333
@@ -67,20 +64,6 @@ services:
       - 8081:80
     depends_on:
       - master
-
-  # backend:
-  #   build:
-  #     context: ./backend
-  #   container_name: backend
-  #   restart: always
-  #   environment:
-  #     - SPRING_DATASOURCE_URL=jdbc:mysql://nginx:80/CAR_RENTAL
-  #     - SPRING_DATASOURCE_USERNAME=RIOSB
-  #     - SPRING_DATASOURCE_PASSWORD=TEST
-  #   ports:
-  #     - "9000:8080"
-  #   depends_on:
-  #     - nginx
 
   nginx:
     image: nginx:latest

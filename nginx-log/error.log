@@ -304,3 +304,16 @@
 2023/11/29 22:34:17 [emerg] 1#1: log format is not specified in /etc/nginx/nginx.conf:39
 2023/11/29 22:34:19 [emerg] 1#1: log format is not specified in /etc/nginx/nginx.conf:39
 2023/11/29 22:34:22 [emerg] 1#1: log format is not specified in /etc/nginx/nginx.conf:39
+2023/11/30 10:26:24 [error] 22#22: *21 upstream timed out (110: Connection timed out) while connecting to upstream, client: 172.18.0.1, server: 0.0.0.0:80, upstream: "172.18.0.5:3306", bytes from/to client:0/0, bytes from/to upstream:0/0
+2023/11/30 10:28:11 [error] 22#22: *38 upstream timed out (110: Connection timed out) while connecting to upstream, client: 172.18.0.1, server: 0.0.0.0:80, upstream: "172.18.0.6:3306", bytes from/to client:0/0, bytes from/to upstream:0/0
+2023/11/30 10:28:12 [error] 22#22: *38 upstream timed out (110: Connection timed out) while connecting to upstream, client: 172.18.0.1, server: 0.0.0.0:80, upstream: "172.18.0.5:3306", bytes from/to client:0/0, bytes from/to upstream:0/0
+2023/11/30 10:29:27 [error] 22#22: *50 upstream timed out (110: Connection timed out) while connecting to upstream, client: 172.18.0.1, server: 0.0.0.0:80, upstream: "172.18.0.3:3306", bytes from/to client:0/0, bytes from/to upstream:0/0
+2023/11/30 10:29:51 [error] 22#22: *65 upstream timed out (110: Connection timed out) while connecting to upstream, client: 172.18.0.1, server: 0.0.0.0:80, upstream: "172.18.0.3:3306", bytes from/to client:0/0, bytes from/to upstream:0/0
+2023/11/30 10:30:38 [error] 22#22: *82 upstream timed out (110: Connection timed out) while connecting to upstream, client: 172.18.0.1, server: 0.0.0.0:80, upstream: "172.18.0.3:3306", bytes from/to client:0/0, bytes from/to upstream:0/0
+2023/11/30 10:53:03 [error] 28#28: *47 connect() failed (113: No route to host) while connecting to upstream, client: 172.18.0.1, server: 0.0.0.0:80, upstream: "172.18.0.3:3306", bytes from/to client:0/0, bytes from/to upstream:0/0
+2023/11/30 10:54:31 [error] 28#28: *70 connect() failed (113: No route to host) while connecting to upstream, client: 172.18.0.1, server: 0.0.0.0:80, upstream: "172.18.0.6:3306", bytes from/to client:0/0, bytes from/to upstream:0/0
+2023/11/30 10:54:36 [error] 28#28: *73 connect() failed (113: No route to host) while connecting to upstream, client: 172.18.0.1, server: 0.0.0.0:80, upstream: "172.18.0.3:3306", bytes from/to client:0/0, bytes from/to upstream:0/0
+2023/11/30 10:56:38 [error] 28#28: *90 connect() failed (113: No route to host) while connecting to upstream, client: 172.18.0.1, server: 0.0.0.0:80, upstream: "172.18.0.2:3306", bytes from/to client:0/0, bytes from/to upstream:0/0
+2023/11/30 11:16:59 [error] 30#30: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.20.0.1, server: 0.0.0.0:80, upstream: "172.20.0.3:3306", bytes from/to client:0/0, bytes from/to upstream:0/0
+2023/11/30 11:16:59 [error] 30#30: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.20.0.1, server: 0.0.0.0:80, upstream: "172.20.0.6:3306", bytes from/to client:0/0, bytes from/to upstream:0/0
+2023/11/30 11:16:59 [error] 30#30: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.20.0.1, server: 0.0.0.0:80, upstream: "172.20.0.2:3306", bytes from/to client:0/0, bytes from/to upstream:0/0
