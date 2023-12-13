@@ -1,11 +1,9 @@
 package pl.edu.pwr.riosb.config;
 
 import com.zaxxer.hikari.HikariDataSource;
-import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,33 +25,36 @@ import javax.sql.DataSource;
 )
 public class PrimaryDatabaseConfig {
 
-    @Bean
+    @Bean(name = "primaryProperties")
     @Primary
-    @ConfigurationProperties("read.datasource")
+    @ConfigurationProperties("write.datasource")
     public DataSourceProperties primaryDataSourceProperties() {
         return new DataSourceProperties();
     }
 
-    @Bean
+    @Bean(name = "primaryDatasource")
     @Primary
-    @ConfigurationProperties("read.datasource.configuration")
+    @ConfigurationProperties("write.datasource.configuration")
     public DataSource primaryDataSource() {
         return primaryDataSourceProperties().initializeDataSourceBuilder().type(HikariDataSource.class).build();
     }
 
     @Primary
     @Bean(name = "primaryEntityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean primaryEntityManagerFactory(EntityManagerFactoryBuilder builder) {
-        return builder
-            .dataSource(primaryDataSource())
+    public LocalContainerEntityManagerFactoryBean primaryEntityManagerFactory(
+        final EntityManagerFactoryBuilder entityManagerFactoryBuilder,
+        @Qualifier("primaryDatasource") DataSource primaryDataSource
+    ) {
+        return entityManagerFactoryBuilder
+            .dataSource(primaryDataSource)
             .packages("pl.edu.pwr.riosb.model.entity")
             .build();
     }
 
     @Primary
-    @Bean
+    @Bean(name = "primaryTransactionManager")
     public PlatformTransactionManager primaryTransactionManager(
-            @Qualifier("primaryEntityManagerFactory") EntityManagerFactory primaryEntityManagerFactory) {
-        return new JpaTransactionManager(primaryEntityManagerFactory);
+            @Qualifier("primaryEntityManagerFactory") LocalContainerEntityManagerFactoryBean primaryEntityManagerFactory) {
+        return new JpaTransactionManager(primaryEntityManagerFactory.getObject());
     }
 }

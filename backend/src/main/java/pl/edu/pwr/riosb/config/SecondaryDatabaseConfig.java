@@ -27,29 +27,32 @@ import javax.sql.DataSource;
 )
 public class SecondaryDatabaseConfig {
 
-    @Bean
-    @ConfigurationProperties("write.datasource")
+    @Bean(name = "secondaryProperties")
+    @ConfigurationProperties("read.datasource")
     public DataSourceProperties secondaryDataSourceProperties() {
         return new DataSourceProperties();
     }
 
-    @Bean
-    @ConfigurationProperties("write.datasource.configuration")
+    @Bean(name = "secondaryDatasource")
+    @ConfigurationProperties("read.datasource.configuration")
     public DataSource secondaryDataSource() {
         return secondaryDataSourceProperties().initializeDataSourceBuilder().type(HikariDataSource.class).build();
     }
 
     @Bean(name = "secondaryEntityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean primaryEntityManagerFactory(EntityManagerFactoryBuilder builder) {
-        return builder
-                .dataSource(secondaryDataSource())
+    public LocalContainerEntityManagerFactoryBean primaryEntityManagerFactory(
+        final EntityManagerFactoryBuilder entityManagerFactoryBuilder ,
+        @Qualifier("secondaryDatasource") DataSource primaryDataSource
+    ) {
+        return entityManagerFactoryBuilder
+                .dataSource(primaryDataSource)
                 .packages("pl.edu.pwr.riosb.model.entity")
                 .build();
     }
 
-    @Bean
+    @Bean(name = "secondaryTransactionManager")
     public PlatformTransactionManager secondaryTransactionManager(
-            @Qualifier("secondaryEntityManagerFactory") EntityManagerFactory secondaryEntityManagerFactory) {
-        return new JpaTransactionManager(secondaryEntityManagerFactory);
+            @Qualifier("secondaryEntityManagerFactory") LocalContainerEntityManagerFactoryBean secondaryEntityManagerFactory) {
+        return new JpaTransactionManager(secondaryEntityManagerFactory.getObject());
     }
 }

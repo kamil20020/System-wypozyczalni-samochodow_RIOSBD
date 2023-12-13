@@ -2,7 +2,7 @@
 
 -- Create Cars table
 CREATE TABLE IF NOT EXISTS Cars (
-    ID INT PRIMARY KEY,
+    ID INT PRIMARY KEY AUTO_INCREMENT,
     Manufacturer VARCHAR(50),
     Model VARCHAR(50),
     Type VARCHAR(50),
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS Cars (
 
 -- Create Clients table
 CREATE TABLE IF NOT EXISTS Clients (
-    ID INT PRIMARY KEY,
+    ID INT PRIMARY KEY AUTO_INCREMENT,
     Name VARCHAR(50),
     Last_name VARCHAR(50),
     Phone_number INT,
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS Clients (
 
 -- Create Cars_Clients table
 CREATE TABLE IF NOT EXISTS Cars_Clients (
-    ID INT PRIMARY KEY,
+    ID INT PRIMARY KEY AUTO_INCREMENT,
     KlientID INT,
     CarsID INT,
     Rental_date DATE,
