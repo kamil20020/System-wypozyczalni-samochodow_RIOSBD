@@ -20,4 +20,5 @@ public interface CarMapper {
     CarEntity fromDTO(CarDTO carDTO);
 
     List<CarDTO> toDTO(List<CarEntity> carEntities);
+    List<CarEntity> fromDTO(List<CarDTO> carDTOs);
 }

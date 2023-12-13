@@ -38,16 +38,12 @@ public class CarServiceImpl implements CarService {
         CarEntity foundCar = primaryCarRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Nie istnieje samochod o takim id"));
 
-        log.info(newCarData.toString());
-
         foundCar.setColor(newCarData.getColor());
         foundCar.setManufacturer(newCarData.getManufacturer());
         foundCar.setType(newCarData.getType());
         foundCar.setLicenceNumber(newCarData.getLicenceNumber());
         foundCar.setCost15min(newCarData.getCost15min());
         foundCar.setPhoto(newCarData.getPhoto());
-
-        log.info(foundCar.toString());
     }
 
     @Override
