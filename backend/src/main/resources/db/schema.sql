@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS Cars (
     Model VARCHAR(50) NOT NULL,
     Type VARCHAR(50) NOT NULL,
     Color VARCHAR(20) NOT NULL,
-    Licence_number VARCHAR(20) NOT NULL,
+    Licence_number VARCHAR(20) NOT NULL UNIQUE,
     Cost_15min DECIMAL(10, 2) NOT NULL,
     Photo BLOB -- Assuming Photo is a binary field (BLOB)
 );
