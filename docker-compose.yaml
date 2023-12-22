@@ -3,7 +3,7 @@ include:
   - ./database/docker-compose.yaml
 services:
   backend:
-    image: kamil20/backend
+    image: backend
     build:
       context: ./backend
     container_name: backend

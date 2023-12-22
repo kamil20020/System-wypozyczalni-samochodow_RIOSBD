@@ -1,7 +1,7 @@
 version: '3'
 services:
   master:
-    image: kamil20/mysql-master
+    image: mysql-master
     build:
       context: ./config-master
       args:
@@ -17,7 +17,7 @@ services:
       - "1111:3306"
 
   slave1:
-    image: kamil20/mysql-slave-1
+    image: mysql-slave-1
     build:
       context: ./config-slave
       args:
@@ -35,7 +35,7 @@ services:
       - master
 
   slave2:
-    image: kamil20/mysql-slave-2
+    image: mysql-slave-2
     build:
       context: ./config-slave
       args:
@@ -66,7 +66,7 @@ services:
       - master
 
   nginx:
-    image: kamil20/mysql-nginx
+    image: mysql-nginx
     build:
       context: ./nginx
     container_name: nginx
