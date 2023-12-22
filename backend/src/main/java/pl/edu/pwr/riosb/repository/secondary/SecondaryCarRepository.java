@@ -6,4 +6,6 @@ import pl.edu.pwr.riosb.model.entity.CarEntity;
 
 @Repository
 public interface SecondaryCarRepository extends JpaRepository<CarEntity, Integer> {
+
+    boolean existsByLicenceNumber(String licenseNumber);
 }

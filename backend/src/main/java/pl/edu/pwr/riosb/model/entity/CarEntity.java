@@ -21,6 +21,7 @@ public class CarEntity {
     private Integer id;
 
     private String manufacturer;
+    private String model;
     private String type;
     private String color;
 

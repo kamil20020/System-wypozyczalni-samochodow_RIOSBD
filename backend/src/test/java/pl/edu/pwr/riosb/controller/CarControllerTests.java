@@ -1,27 +1,19 @@
 package pl.edu.pwr.riosb.controller;
 
 import io.restassured.response.Response;
-import lombok.RequiredArgsConstructor;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import pl.edu.pwr.riosb.mapper.CarMapper;
 import pl.edu.pwr.riosb.model.api.dto.CarDTO;
 import pl.edu.pwr.riosb.model.entity.CarEntity;
 import pl.edu.pwr.riosb.repository.primary.PrimaryCarRepository;
-import pl.edu.pwr.riosb.repository.secondary.SecondaryCarRepository;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static io.restassured.RestAssured.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;

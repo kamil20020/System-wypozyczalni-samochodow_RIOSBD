@@ -1,4 +1,4 @@
-package pl.edu.pwr.riosb.model.api.dto;
+package pl.edu.pwr.riosb.model.api.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,9 +11,8 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CarDTO {
+public class UpdateCar {
 
-    private Integer id;
     private String manufacturer;
     private String model;
     private String type;
