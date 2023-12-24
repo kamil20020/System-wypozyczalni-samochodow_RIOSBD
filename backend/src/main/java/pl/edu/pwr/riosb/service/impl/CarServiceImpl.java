@@ -12,6 +12,7 @@ import pl.edu.pwr.riosb.repository.secondary.SecondaryCarRepository;
 import pl.edu.pwr.riosb.service.CarService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -24,6 +25,13 @@ public class CarServiceImpl implements CarService {
     @Override
     public List<CarEntity> getAll() {
         return secondaryCarRepository.findAll();
+    }
+
+    @Override
+    public CarEntity getById(Integer id) throws EntityNotFoundException{
+
+        return secondaryCarRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Nie istnieje samochód o takim id"));
     }
 
     @Override

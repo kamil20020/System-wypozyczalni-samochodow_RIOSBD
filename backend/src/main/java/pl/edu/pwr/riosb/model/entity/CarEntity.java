@@ -1,5 +1,6 @@
 package pl.edu.pwr.riosb.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Builder
@@ -32,4 +34,8 @@ public class CarEntity {
     private BigDecimal cost15min;
 
     private byte[] photo;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "carEntity", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<CarClientEntity> carClientEntities;
 }

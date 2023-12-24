@@ -27,6 +27,18 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public ClientEntity getById(Integer id) throws EntityNotFoundException {
+
+        return secondaryClientRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Nie istnieje klient o takim id"));
+    }
+
+    @Override
+    public boolean existsByClientCode(Integer clientCode) {
+        return secondaryClientRepository.existsByClientCode(clientCode);
+    }
+
+    @Override
     public ClientEntity create(ClientEntity clientEntity) throws NotGivenException {
 
         if(clientEntity.getName() == null){

@@ -1,5 +1,6 @@
 package pl.edu.pwr.riosb.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
@@ -35,4 +37,8 @@ public class ClientEntity {
 
     @Column(name = "client_code")
     private Integer clientCode;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "clientEntity", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<CarClientEntity> carClientEntities;
 }
