@@ -1,6 +1,7 @@
 package pl.edu.pwr.riosb.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -48,12 +49,27 @@ public class CarClientServiceImpl implements CarClientService {
         return secondaryCarClientRepository.findAll();
     }
 
+    private BigDecimal getTotalCost(BigDecimal carCostPer15Min, LocalDate rentalDate, LocalDate returnDate){
+
+        long numberOfCosts = rentalDate.until(returnDate, DAYS) * 4 * 24;
+
+        return BigDecimal.valueOf(carCostPer15Min.doubleValue() * numberOfCosts);
+    }
+
     @Override
     public CarClientEntity create(Integer carId, Integer clientId, CarClientEntity carClientEntity)
-        throws EntityNotFoundException, IllegalArgumentException, NotGivenException
+        throws NotGivenException, EntityNotFoundException, IllegalArgumentException, IllegalStateException
     {
-        ClientEntity clientEntity = clientService.getById(carId);
-        CarEntity carEntity = carService.getById(clientId);
+        if(carId == null){
+            throw new NotGivenException("Nie podano id samochodu");
+        }
+
+        if(clientId == null){
+            throw new NotGivenException("Nie podano id klienta");
+        }
+
+        ClientEntity clientEntity = clientService.getById(clientId);
+        CarEntity carEntity = carService.getById(carId);
 
         if(carClientEntity.getRentalDate() == null){
             throw new NotGivenException("Nie podano daty początkowej wypożyczenia");
@@ -67,11 +83,15 @@ public class CarClientServiceImpl implements CarClientService {
             throw new IllegalArgumentException("Początkowa data wypożyczenia musi być mniejsza lub równa końcowej dacie wypożyczenia");
         }
 
-        BigDecimal carCostPer15Min = carEntity.getCost15min();
-        LocalDate rentalDate = carClientEntity.getRentalDate();
-        LocalDate returnDate = carClientEntity.getReturnDate();
-        long numberOfCosts = rentalDate.until(returnDate, ChronoUnit.HOURS) * 4;
-        BigDecimal totalCost = BigDecimal.valueOf(carCostPer15Min.doubleValue() * numberOfCosts);
+        if(secondaryCarClientRepository.existsByCarEntity_IdAndReturnDateIsGreaterThanEqual(
+            carId, carClientEntity.getRentalDate()
+        )){
+            throw new IllegalStateException("Samochód już jest wypożyczony");
+        }
+
+        BigDecimal totalCost = getTotalCost(
+            carEntity.getCost15min(), carClientEntity.getRentalDate(), carClientEntity.getReturnDate()
+        );
 
         CarClientEntity newCarClientEntity = CarClientEntity.builder()
             .clientEntity(clientEntity)
@@ -84,13 +104,52 @@ public class CarClientServiceImpl implements CarClientService {
         return primaryCarClientRepository.save(newCarClientEntity);
     }
 
+    @Transactional
     @Override
-    public void updateById(Integer id, CarClientEntity carClientEntity) {
+    public void updateById(Integer id, Integer carId, Integer clientId, CarClientEntity carClientEntity)
+        throws EntityNotFoundException, IllegalArgumentException
+    {
+        CarClientEntity foundCarClientEntity = primaryCarClientRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Nie istnieje wypożyczenie o takim id"));
 
+        if(carId != null){
+            ClientEntity clientEntity = clientService.getById(clientId);
+            foundCarClientEntity.setClientEntity(clientEntity);
+        }
+
+        if(clientId != null){
+            CarEntity carEntity = carService.getById(carId);
+            foundCarClientEntity.setCarEntity(carEntity);
+        }
+
+        if(carClientEntity.getRentalDate() != null){
+            foundCarClientEntity.setRentalDate(carClientEntity.getRentalDate());
+        }
+
+        if(carClientEntity.getReturnDate() != null){
+            foundCarClientEntity.setReturnDate(carClientEntity.getReturnDate());
+        }
+
+        if(carClientEntity.getRentalDate().isAfter(carClientEntity.getReturnDate())){
+            throw new IllegalArgumentException("Początkowa data wypożyczenia musi być mniejsza lub równa końcowej dacie wypożyczenia");
+        }
+
+        BigDecimal totalCost = getTotalCost(
+            foundCarClientEntity.getCarEntity().getCost15min(),
+            carClientEntity.getRentalDate(),
+            carClientEntity.getReturnDate()
+        );
+
+        carClientEntity.setTotalCost(totalCost);
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(Integer id) throws EntityNotFoundException{
 
+        if(!secondaryCarClientRepository.existsById(id)){
+            throw new EntityNotFoundException("Nie istnieje wypożyczenie o takim id");
+        }
+
+        primaryCarClientRepository.deleteById(id);
     }
 }

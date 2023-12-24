@@ -9,6 +9,6 @@ public interface CarClientService {
     List<CarClientEntity> getClientRentalsByClientCode(Integer clientCode);
     List<CarClientEntity> getAll();
     CarClientEntity create(Integer carId, Integer clientId, CarClientEntity carClientEntity);
-    void updateById(Integer id, CarClientEntity carClientEntity);
+    void updateById(Integer id, Integer carId, Integer clientId, CarClientEntity carClientEntity);
     void deleteById(Integer id);
 }
