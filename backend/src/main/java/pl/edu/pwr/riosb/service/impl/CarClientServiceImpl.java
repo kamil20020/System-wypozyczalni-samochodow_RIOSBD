@@ -57,18 +57,18 @@ public class CarClientServiceImpl implements CarClientService {
     }
 
     @Override
-    public CarClientEntity create(Integer carId, Integer clientId, CarClientEntity carClientEntity)
+    public CarClientEntity create(Integer carId, ClientEntity clientEntity, CarClientEntity carClientEntity)
         throws NotGivenException, EntityNotFoundException, IllegalArgumentException, IllegalStateException
     {
         if(carId == null){
             throw new NotGivenException("Nie podano id samochodu");
         }
 
-        if(clientId == null){
-            throw new NotGivenException("Nie podano id klienta");
+        if(clientEntity == null){
+            throw new NotGivenException("Nie podano danych klienta");
         }
 
-        ClientEntity clientEntity = clientService.getById(clientId);
+        ClientEntity createdClientEntity = clientService.create(clientEntity);
         CarEntity carEntity = carService.getById(carId);
 
         if(carClientEntity.getRentalDate() == null){
@@ -94,7 +94,7 @@ public class CarClientServiceImpl implements CarClientService {
         );
 
         CarClientEntity newCarClientEntity = CarClientEntity.builder()
-            .clientEntity(clientEntity)
+            .clientEntity(createdClientEntity)
             .carEntity(carEntity)
             .rentalDate(carClientEntity.getRentalDate())
             .returnDate(carClientEntity.getReturnDate())

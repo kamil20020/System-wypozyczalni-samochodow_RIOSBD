@@ -15,6 +15,6 @@ public class CreateCarClient {
 
     private OffsetDateTime rentalDate;
     private OffsetDateTime returnDate;
-    private Integer clientId;
+    private CreateClient createClient;
     private Integer carId;
 }

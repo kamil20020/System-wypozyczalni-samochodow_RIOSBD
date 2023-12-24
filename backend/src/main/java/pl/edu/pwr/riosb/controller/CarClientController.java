@@ -13,11 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.pwr.riosb.exception.NotGivenException;
 import pl.edu.pwr.riosb.mapper.CarClientMapper;
+import pl.edu.pwr.riosb.mapper.ClientMapper;
 import pl.edu.pwr.riosb.model.api.dto.CarClientDTO;
 import pl.edu.pwr.riosb.model.api.request.CreateCarClient;
+import pl.edu.pwr.riosb.model.api.request.CreateClient;
 import pl.edu.pwr.riosb.model.api.request.UpdateCarClient;
 import pl.edu.pwr.riosb.model.api.response.CarClientWithoutClient;
 import pl.edu.pwr.riosb.model.entity.CarClientEntity;
+import pl.edu.pwr.riosb.model.entity.ClientEntity;
 import pl.edu.pwr.riosb.service.CarClientService;
 
 import java.util.List;
@@ -30,6 +33,7 @@ public class CarClientController {
 
     private final CarClientService carClientService;
     private CarClientMapper carClientMapper = CarClientMapper.INSTANCE;
+    private ClientMapper clientMapper = ClientMapper.INSTANCE;
 
     @Operation(summary = "Get client's rentals list by given client code")
     @ApiResponses(value = {
@@ -126,13 +130,15 @@ public class CarClientController {
     public ResponseEntity create(@RequestBody CreateCarClient createCarClient){
 
         Integer carId = createCarClient.getCarId();
-        Integer clientId = createCarClient.getClientId();
+        CreateClient createClient = createCarClient.getCreateClient();
         CarClientEntity createCarClientEntity = carClientMapper.fromCreateRequest(createCarClient);
+
+        ClientEntity createClientEntity = clientMapper.fromCreateRequest(createClient);
 
         CarClientEntity createdCarClientEntity;
 
         try{
-            createdCarClientEntity = carClientService.create(carId, clientId, createCarClientEntity);
+            createdCarClientEntity = carClientService.create(carId, createClientEntity, createCarClientEntity);
         }
         catch(NotGivenException | IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

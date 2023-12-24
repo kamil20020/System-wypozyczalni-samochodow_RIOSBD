@@ -12,6 +12,11 @@ import pl.edu.pwr.riosb.repository.secondary.SecondaryClientRepository;
 import pl.edu.pwr.riosb.service.ClientService;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+
+import static org.springframework.data.jpa.domain.Specification.where;
+import static pl.edu.pwr.riosb.specification.ClientSpecification.*;
 
 @Slf4j
 @Service
@@ -61,7 +66,17 @@ public class ClientServiceImpl implements ClientService {
             throw new NotGivenException("Nie podano adresu e-mail");
         }
 
-        return primaryClientRepository.save(clientEntity);
+        return secondaryClientRepository.findOne(
+            where(isBirthDateEquals(clientEntity.getBirthDate())
+            .and(isPhoneNumberEquals(clientEntity.getPhoneNumber()))
+            .and(isEmailEquals(clientEntity.getEmail())))
+            .and(isNameEqualsIgnoreCase(clientEntity.getName()))
+            .and(isLastNameEqualsIgnoreCase(clientEntity.getLastName()))
+        )
+        .orElseGet(() -> {
+            clientEntity.setClientCode(new Random().nextInt(0, Integer.MAX_VALUE));
+            return primaryClientRepository.save(clientEntity);
+        });
     }
 
     @Transactional
