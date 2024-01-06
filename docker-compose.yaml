@@ -11,6 +11,6 @@ services:
     environment:
       ID: 11111
     ports:
-      - "9100:9100"
+      - "9200:9200"
     depends_on:
       - nginx
