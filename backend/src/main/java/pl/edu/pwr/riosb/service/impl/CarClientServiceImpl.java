@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import pl.edu.pwr.riosb.exception.NotGivenException;
 import pl.edu.pwr.riosb.model.entity.CarClientEntity;
@@ -14,6 +15,7 @@ import pl.edu.pwr.riosb.repository.secondary.SecondaryCarClientRepository;
 import pl.edu.pwr.riosb.service.CarClientService;
 import pl.edu.pwr.riosb.service.CarService;
 import pl.edu.pwr.riosb.service.ClientService;
+import static pl.edu.pwr.riosb.specification.CarClientSpecification.*;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -79,14 +81,21 @@ public class CarClientServiceImpl implements CarClientService {
             throw new NotGivenException("Nie podano końcowej daty wypożyczenia");
         }
 
-        if(carClientEntity.getRentalDate().isAfter(carClientEntity.getReturnDate())){
-            throw new IllegalArgumentException("Początkowa data wypożyczenia musi być mniejsza lub równa końcowej dacie wypożyczenia");
+        if(!carClientEntity.getReturnDate().isAfter(carClientEntity.getRentalDate())){
+            throw new IllegalArgumentException("Początkowa data wypożyczenia musi być mniejsza od końcowej daty wypożyczenia");
         }
 
-        if(secondaryCarClientRepository.existsByCarEntity_IdAndReturnDateIsGreaterThanEqual(
-            carId, carClientEntity.getRentalDate()
+        if(carClientEntity.getRentalDate().isBefore(LocalDate.now())){
+            throw new IllegalArgumentException("Data wypożyczenia nie może być wcześniej niż teraz");
+        }
+
+        if(secondaryCarClientRepository.exists(
+            carIdEquals(carId)
+            .and(rentalRangeOverlaps(
+                carClientEntity.getRentalDate(), carClientEntity.getReturnDate()
+            ))
         )){
-            throw new IllegalStateException("Samochód już jest wypożyczony");
+            throw new IllegalStateException("W podanym przedziale czasowym samochód jest już wypożyczony");
         }
 
         BigDecimal totalCost = getTotalCost(
