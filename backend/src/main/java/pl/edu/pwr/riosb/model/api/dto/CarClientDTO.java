@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 @Builder
 @Data
@@ -15,8 +15,8 @@ import java.time.OffsetDateTime;
 public class CarClientDTO {
 
     private Integer id;
-    private OffsetDateTime rentalDate;
-    private OffsetDateTime returnDate;
+    private LocalDate rentalDate;
+    private LocalDate returnDate;
     private BigDecimal totalCost;
     private CarDTO car;
     private ClientDTO client;

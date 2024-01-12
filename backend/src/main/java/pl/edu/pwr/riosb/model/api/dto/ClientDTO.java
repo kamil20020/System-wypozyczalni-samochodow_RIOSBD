@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -18,6 +18,6 @@ public class ClientDTO {
     private String lastName;
     private String email;
     private Integer phoneNumber;
-    private OffsetDateTime birthDate;
+    private LocalDate birthDate;
     private Integer clientCode;
 }

@@ -10,21 +10,15 @@ import pl.edu.pwr.riosb.model.entity.ClientEntity;
 
 import java.util.List;
 
-@Mapper(uses = {DateMapper.class})
+@Mapper
 public interface ClientMapper {
 
     ClientMapper INSTANCE = Mappers.getMapper(ClientMapper.class);
 
-    @Mapping(source = "birthDate", target = "birthDate", qualifiedByName = "toOffsetDateTime")
     ClientDTO toDTO(ClientEntity clientEntity);
 
-    @Mapping(source = "birthDate", target = "birthDate", qualifiedByName = "toLocalDate")
-    ClientEntity fromDTO(ClientDTO clientDTO);
-
-    @Mapping(source = "birthDate", target = "birthDate", qualifiedByName = "toLocalDate")
     ClientEntity fromCreateRequest(CreateClient createClient);
 
-    @Mapping(source = "birthDate", target = "birthDate", qualifiedByName = "toLocalDate")
     ClientEntity fromUpdateRequest(UpdateClient updateClient);
 
     List<ClientDTO> toDTO(List<ClientEntity> clientEntities);

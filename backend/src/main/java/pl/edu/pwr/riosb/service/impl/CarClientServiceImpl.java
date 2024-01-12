@@ -4,7 +4,6 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import pl.edu.pwr.riosb.exception.NotGivenException;
 import pl.edu.pwr.riosb.model.entity.CarClientEntity;
@@ -15,14 +14,13 @@ import pl.edu.pwr.riosb.repository.secondary.SecondaryCarClientRepository;
 import pl.edu.pwr.riosb.service.CarClientService;
 import pl.edu.pwr.riosb.service.CarService;
 import pl.edu.pwr.riosb.service.ClientService;
+import pl.edu.pwr.riosb.specification.CarClientSpecification;
+
 import static pl.edu.pwr.riosb.specification.CarClientSpecification.*;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Optional;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 

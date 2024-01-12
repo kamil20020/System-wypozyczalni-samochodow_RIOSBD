@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -13,8 +13,8 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 public class CreateCarClient {
 
-    private OffsetDateTime rentalDate;
-    private OffsetDateTime returnDate;
+    private LocalDate rentalDate;
+    private LocalDate returnDate;
     private CreateClient createClient;
     private Integer carId;
 }

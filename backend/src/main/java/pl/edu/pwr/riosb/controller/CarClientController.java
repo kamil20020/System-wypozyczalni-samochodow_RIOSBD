@@ -107,7 +107,7 @@ public class CarClientController {
     @ApiResponses(value = {
         @ApiResponse(
             responseCode = "201",
-            description = "Rental was created",
+            description = "Rental was created, here is client code",
             content = @Content
         ),
         @ApiResponse(
@@ -150,7 +150,7 @@ public class CarClientController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("Utworzono wypożyczenie o id " + createdCarClientEntity.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCarClientEntity.getClientEntity().getClientCode());
     }
 
     @Operation(summary = "Replace rental's data")

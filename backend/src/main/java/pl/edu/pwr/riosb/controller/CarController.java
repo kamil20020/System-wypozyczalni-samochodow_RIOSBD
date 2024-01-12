@@ -51,6 +51,26 @@ public class CarController {
         return ResponseEntity.ok(carDTOs);
     }
 
+    @Operation(summary = "Get all available cars")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Got list of available cars",
+                    content = { @Content(
+                            mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = CarDTO.class))
+                    )}
+            )
+    })
+    @GetMapping("/available")
+    public ResponseEntity<List<CarDTO>> getAllAvailable(){
+
+        List<CarEntity> carEntities = carService.getAllAvailable();
+        List<CarDTO> carDTOs = carMapper.toDTO(carEntities);
+
+        return ResponseEntity.ok(carDTOs);
+    }
+
     @Operation(summary = "Create car")
     @ApiResponses(value = {
         @ApiResponse(

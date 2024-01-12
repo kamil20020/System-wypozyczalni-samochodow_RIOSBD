@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import pl.edu.pwr.riosb.model.api.dto.CarDTO;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 
 @Builder
 @Data
@@ -16,8 +16,8 @@ import java.time.OffsetDateTime;
 public class CarClientWithoutClient {
 
     private Integer id;
-    private OffsetDateTime rentalDate;
-    private OffsetDateTime returnDate;
+    private LocalDate rentalDate;
+    private LocalDate returnDate;
     private BigDecimal totalCost;
     private CarDTO car;
 }

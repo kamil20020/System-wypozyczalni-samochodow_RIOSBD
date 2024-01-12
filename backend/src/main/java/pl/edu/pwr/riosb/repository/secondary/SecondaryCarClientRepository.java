@@ -12,5 +12,4 @@ import java.util.List;
 public interface SecondaryCarClientRepository extends JpaRepository<CarClientEntity, Integer>, JpaSpecificationExecutor<CarClientEntity> {
 
     List<CarClientEntity> findAllByClientEntity_ClientCode(Integer clientCode);
-    boolean existsByCarEntity_IdAndReturnDateIsGreaterThanEqual(Integer carId, LocalDate actualDate);
 }

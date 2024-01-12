@@ -28,6 +28,11 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public List<CarEntity> getAllAvailable() {
+        return secondaryCarRepository.getAllAvailable();
+    }
+
+    @Override
     public CarEntity getById(Integer id) throws EntityNotFoundException{
 
         return secondaryCarRepository.findById(id)
