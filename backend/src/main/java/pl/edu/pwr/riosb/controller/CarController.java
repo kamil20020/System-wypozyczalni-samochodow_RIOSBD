@@ -53,14 +53,14 @@ public class CarController {
 
     @Operation(summary = "Get all available cars")
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Got list of available cars",
-                    content = { @Content(
-                            mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = CarDTO.class))
-                    )}
-            )
+        @ApiResponse(
+            responseCode = "200",
+            description = "Got list of available cars",
+            content = { @Content(
+                mediaType = "application/json",
+                array = @ArraySchema(schema = @Schema(implementation = CarDTO.class))
+            )}
+        )
     })
     @GetMapping("/available")
     public ResponseEntity<List<CarDTO>> getAllAvailable(){

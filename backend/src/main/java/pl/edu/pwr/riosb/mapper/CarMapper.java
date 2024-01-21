@@ -16,15 +16,19 @@ public interface CarMapper {
     CarMapper INSTANCE = Mappers.getMapper(CarMapper.class);
 
     @Mapping(source = "photo", target = "photo", qualifiedByName = "toBase64")
+    @Mapping(source = "location", target = "location")
     CarDTO toDTO(CarEntity carEntity);
 
     @Mapping(source = "photo", target = "photo", qualifiedByName = "fromBase64ToByteArray")
+    @Mapping(source = "location", target = "location")
     CarEntity fromDTO(CarDTO carDTO);
 
     @Mapping(source = "photo", target = "photo", qualifiedByName = "fromBase64ToByteArray")
+    @Mapping(source = "location", target = "location")
     CarEntity fromCreateRequest(CreateCar createCar);
 
     @Mapping(source = "photo", target = "photo", qualifiedByName = "fromBase64ToByteArray")
+    @Mapping(source = "location", target = "location")
     CarEntity fromUpdateRequest(UpdateCar updateCar);
 
     List<CarDTO> toDTO(List<CarEntity> carEntities);

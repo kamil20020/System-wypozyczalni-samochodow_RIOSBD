@@ -70,6 +70,10 @@ public class CarServiceImpl implements CarService {
             throw new NotGivenException("Nie podano zdjęcia");
         }
 
+        if(carEntity.getLocation() == null){
+            throw new NotGivenException("Nie podano lokalizacji");
+        }
+
         if(secondaryCarRepository.existsByLicenceNumber(carEntity.getLicenceNumber())){
             throw new IllegalStateException("Istnieje już samochód z takim numerem rejestracyjnym");
         }
@@ -100,7 +104,7 @@ public class CarServiceImpl implements CarService {
             foundCar.setModel(newCarData.getModel());
         }
 
-        if(newCarData.getLicenceNumber() != null){
+        if(newCarData.getLicenceNumber() != null && !newCarData.getLicenceNumber().equals(foundCar.getLicenceNumber())){
 
             if(secondaryCarRepository.existsByLicenceNumber(newCarData.getLicenceNumber())){
                 throw new IllegalStateException("Istnieje już samochód z takim numerem rejestracyjnym");
@@ -115,6 +119,10 @@ public class CarServiceImpl implements CarService {
 
         if(newCarData.getPhoto() != null){
             foundCar.setPhoto(newCarData.getPhoto());
+        }
+
+        if(newCarData.getLocation() != null){
+            foundCar.setLocation(newCarData.getLocation());
         }
     }
 

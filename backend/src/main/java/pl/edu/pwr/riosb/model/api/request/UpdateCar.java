@@ -20,4 +20,5 @@ public class UpdateCar {
     private String licenceNumber;
     private BigDecimal cost15min;
     private String photo;
+    private String location;
 }

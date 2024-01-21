@@ -17,7 +17,7 @@ public interface Base64Mapper {
             return null;
         }
 
-        var decoder = Base64.getDecoder();
+        var decoder = Base64.getMimeDecoder();
         return decoder.decode(input);
     }
 

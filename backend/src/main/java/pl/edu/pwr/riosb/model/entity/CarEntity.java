@@ -35,6 +35,8 @@ public class CarEntity {
 
     private byte[] photo;
 
+    private String location;
+
     @JsonIgnore
     @OneToMany(mappedBy = "carEntity", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CarClientEntity> carClientEntities;
